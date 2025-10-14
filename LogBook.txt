@@ -1,0 +1,3 @@
+Tuesday 14th October 2025:
+
+Initialised repository with necessary VR project files on Unity for programming
