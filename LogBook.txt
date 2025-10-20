@@ -1,3 +1,9 @@
 Tuesday 14th October 2025:
 
 Initialised repository with necessary VR project files on Unity for programming
+
+Monday 20th October 2025:
+
+Created new scene for FYP named FYPScene
+Configured local /sshfiles folder to house sensitive information
+Added button and Ray Interaction with VR headset
