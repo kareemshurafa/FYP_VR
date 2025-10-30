@@ -2,8 +2,10 @@ using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
 using Oculus.Interaction;
+using Siccity.GLTFUtility;
+using Unity.SharpZipLib.Utils;
 
-public class VentricleAnimation : MonoBehaviour
+public class Glbloader : MonoBehaviour
 {
     // Serialized list to hold the meshes
     [SerializeField] List<Mesh> ventricleMesh = new List<Mesh>();
@@ -17,32 +19,28 @@ public class VentricleAnimation : MonoBehaviour
     // Counter for mesh loop
     int counter;
 
+    public string glbFilePath;
+
+    private Mesh[] meshes;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Reference - ChatGPT-4o (OpenAI)
-        // Locates .obj files in Resources folder based on path, and creates Object array loaded with GameObject types
-        Object[] files = Resources.LoadAll(path, typeof(GameObject));
+        // Reference - https://github.com/Siccity/GLTFUtility
+        GameObject glbObject = Importer.LoadFromFile(glbFilePath);
 
-        // Loops through each .obj file to extract the mesh, process it in Unity, and render it at runtime
-        foreach (Object file in files)
-        {
-            Debug.Log("" + file.ToString());
+        MeshFilter[] meshFilters = glbObject.GetComponentsInChildren<MeshFilter>();
 
-            // Reference - ChatGPT-4o (OpenAI)
-            // Create new child game object
-            GameObject x = GameObject.Instantiate(file as GameObject, transform);
+        meshes = new Mesh[meshFilters.Length];
 
-            // Obtain the current mesh and add to parent object's mesh list
-            Mesh mesh1 = x.GetComponentInChildren<MeshFilter>().mesh;
-            ventricleMesh.Add(mesh1);
-
-            // Destroying the game object
-            Destroy(x);
-        }
-        
-        // Add a MeshFilter component to display the meshes in the list
         MeshFilter meshFilter = gameObject.AddComponent<MeshFilter>();
+
+        for (int i = 0; i < meshFilters.Length; i++)
+            {
+                meshes[i] = meshFilters[i].mesh;
+            }
+
+        Destroy(glbObject); // optional cleanup
         
         // Add a MeshRenderer component and set to red
         meshRenderer = gameObject.AddComponent<MeshRenderer>();
@@ -73,9 +71,9 @@ public class VentricleAnimation : MonoBehaviour
     // Looping through the mesh list to simulate an animation
     void meshAnimation()
     {
-        GetComponent<MeshFilter>().mesh = ventricleMesh[counter];
+        GetComponent<MeshFilter>().mesh = meshes[counter];
         counter++;
-        if (counter == ventricleMesh.Count)
+        if (counter == meshes.Length)
         {
             counter = 0;
         }

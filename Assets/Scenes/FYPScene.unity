@@ -1767,6 +1767,7 @@ GameObject:
   - component: {fileID: 1763349868}
   - component: {fileID: 1763349867}
   - component: {fileID: 1763349869}
+  - component: {fileID: 1763349870}
   m_Layer: 0
   m_Name: Ventricle
   m_TagString: Untagged
@@ -1781,13 +1782,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1763349866}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe5a33727b283f5498e51436f1c7ba24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ventricleMesh: []
   meshRenderer: {fileID: 0}
+  path: ResourcesMeshes/meshes2
 --- !u!4 &1763349868
 Transform:
   m_ObjectHideFlags: 0
@@ -1803,14 +1805,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1763349869
-MeshFilter:
+--- !u!114 &1763349869
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1763349866}
-  m_Mesh: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2e77e9ccbc6bcb4b8557c74b4307b89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ventricleMesh: []
+  meshRenderer: {fileID: 0}
+  path: 
+  glbFilePath: C:\Users\karee\Documents\GitHub\FYP_VR\Assets\Resources\ResourcesMeshes\Untitled.glb
+--- !u!114 &1763349870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763349866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bf6ed4120f45fb40bab9f8438ad630c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  urlpath: Assets/Settings/keys/presignedURL.txt
 --- !u!1 &1802876593
 GameObject:
   m_ObjectHideFlags: 0
