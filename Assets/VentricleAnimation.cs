@@ -47,21 +47,6 @@ public class VentricleAnimation : MonoBehaviour
         // Add a MeshRenderer component and set to red
         meshRenderer = gameObject.AddComponent<MeshRenderer>();
         meshRenderer.material.color = Color.red;
-
-        // Adding required components to create an interactable object in VR
-        Rigidbody rigid = gameObject.AddComponent<Rigidbody>();
-        rigid.useGravity = false;
-        SphereCollider sphere = gameObject.AddComponent<SphereCollider>();
-
-        // Obtained from Oculus.Interaction library
-        Grabbable grabbable = gameObject.AddComponent<Grabbable>();
-
-        GameObject interactor = new GameObject("Interactor");
-        interactor.transform.parent = transform;
-
-        // Reference - ChatGPT-4o (OpenAI)
-        // var rayGrabbable = interactor.AddComponent<RayInteractable>();
-        // rayGrabbable.InjectSurface(null);
     }
 
     // Update is called once per frame

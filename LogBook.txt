@@ -20,3 +20,9 @@ Created AWS S3 bucket and uploaded compressed .zip file to hold mesh frames
 Created files in Settings for pre-signed URLs for temporary access to mesh downloads at runtime (.gitignore updated)
 Added awsextractor.cs to make a HTTPS GET request and download files from a pre-signed URL pointing to an AWS S3 bucket
 Started scripting of auto-attaching VR Grabbable scripts to runtime-instantiated game objects
+
+Thursday 6th November 2025:
+Removed implementations of adding VR grabbable scripting to game object
+Directly added Ray Grabbable functionality to ventricle game object
+Added background to scene
+Debugging HTTPS GET request functionality to test on VR headset
