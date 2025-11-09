@@ -26,3 +26,8 @@ Removed implementations of adding VR grabbable scripting to game object
 Directly added Ray Grabbable functionality to ventricle game object
 Added background to scene
 Debugging HTTPS GET request functionality to test on VR headset
+
+Sunday 9th November 2025:
+Added Runtime OBJ Importer library to load OBJ files properly at runtime for visualisation
+Implemented downloading and unzipping of files from S3 Bucket in VR headset
+Added check for files existing for mesh animation loop

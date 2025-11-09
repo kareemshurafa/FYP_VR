@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
-using Oculus.Interaction;
+using Dummiesman;
 
 public class VentricleAnimation : MonoBehaviour
 {
@@ -16,6 +16,8 @@ public class VentricleAnimation : MonoBehaviour
 
     // Counter for mesh loop
     int counter;
+
+    bool exist = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -52,7 +54,10 @@ public class VentricleAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        meshAnimation();
+        while (!exist)
+        {
+            meshAnimation();
+        }
     }
 
     // Looping through the mesh list to simulate an animation
@@ -64,5 +69,10 @@ public class VentricleAnimation : MonoBehaviour
         {
             counter = 0;
         }
+    }
+
+    public void build()
+    {
+        // adding implementation later
     }
 }
