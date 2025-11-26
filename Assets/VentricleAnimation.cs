@@ -6,10 +6,10 @@ using Dummiesman;
 public class VentricleAnimation : MonoBehaviour
 {
     // Serialized list to hold the meshes
-    [SerializeField] List<Mesh> ventricleMesh = new List<Mesh>();
+    [SerializeField] public List<Mesh> meshList = new List<Mesh>();
 
     // Serialized mesh renderer
-    [SerializeField] MeshRenderer meshRenderer;
+    [SerializeField] public MeshRenderer meshRenderer;
 
     // Serialized path for locating folder in Resources with meshes
     [SerializeField] string path;
@@ -22,57 +22,66 @@ public class VentricleAnimation : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Reference - ChatGPT-4o (OpenAI)
-        // Locates .obj files in Resources folder based on path, and creates Object array loaded with GameObject types
-        Object[] files = Resources.LoadAll(path, typeof(GameObject));
-
-        // Loops through each .obj file to extract the mesh, process it in Unity, and render it at runtime
-        foreach (Object file in files)
-        {
-            Debug.Log("" + file.ToString());
-
-            // Reference - ChatGPT-4o (OpenAI)
-            // Create new child game object
-            GameObject x = GameObject.Instantiate(file as GameObject, transform);
-
-            // Obtain the current mesh and add to parent object's mesh list
-            Mesh mesh1 = x.GetComponentInChildren<MeshFilter>().mesh;
-            ventricleMesh.Add(mesh1);
-
-            // Destroying the game object
-            Destroy(x);
-        }
         
-        // Add a MeshFilter component to display the meshes in the list
-        MeshFilter meshFilter = gameObject.AddComponent<MeshFilter>();
-        
-        // Add a MeshRenderer component and set to red
-        meshRenderer = gameObject.AddComponent<MeshRenderer>();
-        meshRenderer.material.color = Color.red;
     }
 
     // Update is called once per frame
     void Update()
     {
-        while (!exist)
-        {
-            meshAnimation();
-        }
+
     }
 
     // Looping through the mesh list to simulate an animation
-    void meshAnimation()
+    public void meshAnimation(bool value)
     {
-        GetComponent<MeshFilter>().mesh = ventricleMesh[counter];
-        counter++;
-        if (counter == ventricleMesh.Count)
+        while (value)
         {
-            counter = 0;
+            GetComponent<MeshFilter>().mesh = meshList[counter];
+            counter++;
+            if (counter == meshList.Count)
+            {
+                counter = 0;
+            }
         }
     }
 
-    public void build()
+    public void build(string pathExtract)
     {
-        // adding implementation later
+        // locate files in folder
+        // foreach .obj file:
+        //   load into game
+        //   extract mesh + add to list
+        //   delete (will keep initially to test it working)
+        // Reference - https://learn.microsoft.com/en-us/dotnet/api/system.io.directory?view=net-9.0
+        Debug.Log("Building obj files!");
+        string[] objPaths = Directory.GetFiles(pathExtract, "*.obj");
+        meshList = new List<Mesh>();
+        foreach (string obj in objPaths)
+        {
+            // Reference - https://assetstore.unity.com/packages/tools/modeling/runtime-obj-importer-49547
+            GameObject gameobj = new OBJLoader().Load(obj);
+
+            Mesh mesh1 = gameobj.GetComponentInChildren<MeshFilter>().mesh;
+            // Reference - https://docs.unity3d.com/6000.2/Documentation/ScriptReference/Mesh.html
+            mesh1.RecalculateNormals();
+            mesh1.RecalculateBounds();
+            mesh1.RecalculateTangents();
+            meshList.Add(mesh1);
+            Destroy(gameobj);
+        }
+        Debug.Log("Extracted Meshes from objs!");
+        // Add a MeshFilter component to display the meshes in the list
+        MeshFilter meshFilter = gameObject.AddComponent<MeshFilter>();
+
+        Debug.Log("Now adding meshRenderer!");
+        // Add a MeshRenderer component and set to red
+        meshRenderer = gameObject.AddComponent<MeshRenderer>();
+        meshRenderer.material.shader = Shader.Find("Universal Render Pipeline/Lit");
+        //meshRenderer.material.color = Color.red;
+        // Reference - https://docs.unity3d.com/6000.2/Documentation/ScriptReference/Renderer-material.html
+        Material mat = GetComponent<Renderer>().material;
+        Debug.Log("Finding material: " + mat.name + " and shader: " + mat.shader);
+        Debug.Log("Setting exist equal to true!");
+        exist = true;
     }
 }

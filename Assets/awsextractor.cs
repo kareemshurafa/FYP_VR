@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using System.Collections;
 using UnityEngine.UI;
 using System.Threading;
+using Dummiesman;
 
 public class awsextractor : MonoBehaviour
 {
@@ -42,14 +43,19 @@ public class awsextractor : MonoBehaviour
             Thread.Sleep(5000);
         }
         else
+        {
             Debug.Log("File successfully downloaded and saved to " + pathZip);
             button.GetComponent<Image>().color = Color.green;
             Thread.Sleep(5000);
             string pathExtract = Path.Combine(Application.persistentDataPath, "ExtractedFiles");
+            // Reference - adapted from ChatGPT-5 (OpenAI)
+            Directory.CreateDirectory(pathExtract);
             // Reference - adapted from: https://docs.unity3d.com/Packages/com.unity.sharp-zip-lib@1.4/manual/index.html
             ZipUtility.UncompressFromZip(pathZip, null, pathExtract);
             Thread.Sleep(5000);
-            ventricle.GetComponent<VentricleAnimation>().build();
+            Debug.Log("Now calling animation method!");
+            ventricle.GetComponent<VentricleAnimation>().build(pathExtract);
+        }
     }
 
     // Update is called once per frame
