@@ -31,19 +31,6 @@ public class VentricleAnimation : MonoBehaviour
 
     }
 
-    // Looping through the mesh list to simulate an animation
-    public void meshAnimation(bool value)
-    {
-        while (value)
-        {
-            GetComponent<MeshFilter>().mesh = meshList[counter];
-            counter++;
-            if (counter == meshList.Count)
-            {
-                counter = 0;
-            }
-        }
-    }
 
     public void build(string pathExtract)
     {
