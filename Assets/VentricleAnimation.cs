@@ -64,6 +64,7 @@ public class VentricleAnimation : MonoBehaviour
         // Add a MeshRenderer component and set to red
         meshRenderer = gameObject.AddComponent<MeshRenderer>();
         meshRenderer.material.shader = Shader.Find("Universal Render Pipeline/Lit");
+        meshRenderer.material.color = Color.red;
         //meshRenderer.material.color = Color.red;
         // Reference - https://docs.unity3d.com/6000.2/Documentation/ScriptReference/Renderer-material.html
         Material mat = GetComponent<Renderer>().material;

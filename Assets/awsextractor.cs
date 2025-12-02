@@ -40,7 +40,7 @@ public class awsextractor : MonoBehaviour
         {
             Debug.LogError(var1.error);
             button.GetComponent<Image>().color = Color.red;
-            Thread.Sleep(5000);
+            //Thread.Sleep(5000);
         }
         else
         {
@@ -52,7 +52,7 @@ public class awsextractor : MonoBehaviour
             Directory.CreateDirectory(pathExtract);
             // Reference - adapted from: https://docs.unity3d.com/Packages/com.unity.sharp-zip-lib@1.4/manual/index.html
             ZipUtility.UncompressFromZip(pathZip, null, pathExtract);
-            Thread.Sleep(5000);
+            //Thread.Sleep(5000);
             Debug.Log("Now calling animation method!");
             ventricle.GetComponent<VentricleAnimation>().build(pathExtract);
         }
