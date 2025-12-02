@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 161102270}
   - component: {fileID: 161102269}
   m_Layer: 5
-  m_Name: InputField (TMP) (1)
+  m_Name: FileNameInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -572,7 +572,7 @@ GameObject:
   - component: {fileID: 199623192}
   - component: {fileID: 199623191}
   m_Layer: 5
-  m_Name: InputField (TMP)
+  m_Name: PasswordInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1659,7 +1659,7 @@ GameObject:
   - component: {fileID: 894309138}
   - component: {fileID: 894309141}
   m_Layer: 3
-  m_Name: Button
+  m_Name: DownloadButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1794,6 +1794,8 @@ MonoBehaviour:
   resourcespath: keys/presignedURL
   button: {fileID: 894309136}
   ventricle: {fileID: 1763349866}
+  nameField: {fileID: 161102267}
+  passwordField: {fileID: 199623189}
 --- !u!1 &912622089
 GameObject:
   m_ObjectHideFlags: 0
@@ -2143,7 +2145,7 @@ GameObject:
   - component: {fileID: 982092249}
   - component: {fileID: 982092248}
   m_Layer: 3
-  m_Name: Button (1)
+  m_Name: AnimationButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2313,7 +2315,7 @@ GameObject:
   - component: {fileID: 993782152}
   - component: {fileID: 993782151}
   m_Layer: 3
-  m_Name: Button (2)
+  m_Name: SendInputButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4163,10 +4165,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1181623143}
-  - {fileID: 894309137}
   - {fileID: 982092246}
-  - {fileID: 199623190}
+  - {fileID: 894309137}
   - {fileID: 161102268}
+  - {fileID: 199623190}
   - {fileID: 993782150}
   - {fileID: 931872683}
   m_Father: {fileID: 0}

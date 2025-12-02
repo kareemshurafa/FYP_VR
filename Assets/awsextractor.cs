@@ -15,8 +15,12 @@ public class awsextractor : MonoBehaviour
 
     public GameObject ventricle;
 
+    public GameObject nameField;
+
+    public GameObject passwordField;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    // Reference - Adapted from: https://docs.unity3d.com/6000.0/Documentation/Manual/web-request-creating-download-handlers.html
+    // Reference - Adapted from: https://docs.unity3d.com/2022.3/Documentation/Manual/UnityWebRequest-CreatingDownloadHandlers.html
     void Start()
     {
         // Coroutine - methods with IEnumerator return types and yield return statement
@@ -30,6 +34,18 @@ public class awsextractor : MonoBehaviour
         var urlfile = Resources.Load<TextAsset>(resourcespath);
         string url = urlfile.ToString().Trim();
         var var1 = new UnityWebRequest(url, UnityWebRequest.kHttpVerbGET);
+        
+        // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Networking.UnityWebRequest.Post.html
+        // get text field inputs
+        // send over
+        string name = nameField.GetComponent<InputField>().text;
+        string pass = passwordField.GetComponent<InputField>().text;
+        using (UnityWebRequest request = UnityWebRequest.Post(url, "{ \"objectName\": \"" + name + "\", \"password\": \"" + pass + " }", "application/json"))
+        {
+            // TODO - implement
+        }
+
+        var var2 = new UnityWebRequest(url, UnityWebRequest.kHttpVerbPOST);
         
         // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Application-persistentDataPath.html
         // Need to save files in appropriate file location for VR headset to access at runtime
