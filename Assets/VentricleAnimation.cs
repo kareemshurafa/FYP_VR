@@ -14,6 +14,8 @@ public class VentricleAnimation : MonoBehaviour
     // Serialized path for locating folder in Resources with meshes
     [SerializeField] string path;
 
+    public GameObject panel;
+
     // Counter for mesh loop
     int counter;
 
@@ -42,6 +44,9 @@ public class VentricleAnimation : MonoBehaviour
         // Reference - https://learn.microsoft.com/en-us/dotnet/api/system.io.directory?view=net-9.0
         Debug.Log("Building obj files!");
         string[] objPaths = Directory.GetFiles(pathExtract, "*.obj");
+        string[] pngPaths = Directory.GetFiles(pathExtract, "*.png");
+        Debug.Log("Number of pngs: " + pngPaths.Length);
+        Debug.Log("Number of objs: " + objPaths.Length);
         meshList = new List<Mesh>();
         foreach (string obj in objPaths)
         {
@@ -71,5 +76,8 @@ public class VentricleAnimation : MonoBehaviour
         Debug.Log("Finding material: " + mat.name + " and shader: " + mat.shader);
         Debug.Log("Setting exist equal to true!");
         exist = true;
+
+        panel.GetComponent<ImageAnimation>().build(pathExtract);
+
     }
 }
