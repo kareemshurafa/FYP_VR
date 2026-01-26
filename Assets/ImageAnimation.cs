@@ -16,6 +16,8 @@ public class ImageAnimation : MonoBehaviour
     public static List<Texture2D> image6Textures = new List<Texture2D>();
     public static bool play;
     public static int playCounter = 0;
+
+    public static int length = 0;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
