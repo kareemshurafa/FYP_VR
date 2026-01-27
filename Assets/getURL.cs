@@ -13,8 +13,8 @@ public class getURL : MonoBehaviour
     [SerializeField] string appURL;
 
     // Reference - adapted from ChatGPT 5.0
-    public TMP_InputField nameText;
-    public TMP_InputField passwordText;
+    [SerializeField] public TMP_InputField nameText;
+    [SerializeField] public TMP_InputField passwordText;
 
     public GameObject ventricle;
 
@@ -48,44 +48,47 @@ public class getURL : MonoBehaviour
                 Debug.Log("Obtained URL successfuly");
                 GetComponent<Image>().color = Color.green;
                 Debug.Log(request.downloadHandler.text);
-                StartCoroutine(DownloadAndExtractFiles(request.downloadHandler.text));
+                //StartCoroutine(DownloadAndExtractFiles(request.downloadHandler.text));
+                StartCoroutine(ventricle.GetComponent<VentricleAnimation>().DownloadAndExtractFiles(request.downloadHandler.text));
             }
         }
     }
 
-    IEnumerator DownloadAndExtractFiles(string URL) 
-    {
-        // string url = File.ReadAllText(urlpath).Trim();
-        // var urlfile = Resources.Load<TextAsset>(resourcespath);
-        // string url = urlfile.ToString().Trim();
-        var var1 = new UnityWebRequest(URL, UnityWebRequest.kHttpVerbGET);
+    // IEnumerator DownloadAndExtractFiles(string URL) 
+    // {
+    //     // string url = File.ReadAllText(urlpath).Trim();
+    //     // var urlfile = Resources.Load<TextAsset>(resourcespath);
+    //     // string url = urlfile.ToString().Trim();
+    //     var var1 = new UnityWebRequest(URL, UnityWebRequest.kHttpVerbGET);
         
-        // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Application-persistentDataPath.html
-        // Need to save files in appropriate file location for VR headset to access at runtime
-        string pathZip = Path.Combine(Application.persistentDataPath, "files1.zip");
-        var1.downloadHandler = new DownloadHandlerFile(pathZip);
-        yield return var1.SendWebRequest();
-        if (var1.result != UnityWebRequest.Result.Success)
-        {
-            Debug.LogError(var1.error);
-            // button.GetComponent<Image>().color = Color.red;
-            //Thread.Sleep(5000);
-        }
-        else
-        {
-            Debug.Log("File successfully downloaded and saved to " + pathZip);
-            // button.GetComponent<Image>().color = Color.green;
-            Thread.Sleep(3000);
-            string pathExtract = Path.Combine(Application.persistentDataPath, "ExtractedFiles");
-            // Reference - adapted from ChatGPT-5 (OpenAI)
-            Directory.CreateDirectory(pathExtract);
-            // Reference - adapted from: https://docs.unity3d.com/Packages/com.unity.sharp-zip-lib@1.4/manual/index.html
-            ZipUtility.UncompressFromZip(pathZip, null, pathExtract);
-            //Thread.Sleep(5000);
-            Debug.Log("Now calling animation method!");
-            ventricle.GetComponent<VentricleAnimation>().build(pathExtract);
-        }
-    }
+    //     // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Application-persistentDataPath.html
+    //     // Need to save files in appropriate file location for VR headset to access at runtime
+    //     string pathZip = Path.Combine(Application.persistentDataPath, "files1.zip");
+    //     var1.downloadHandler = new DownloadHandlerFile(pathZip);
+    //     yield return var1.SendWebRequest();
+    //     if (var1.result != UnityWebRequest.Result.Success)
+    //     {
+    //         Debug.LogError(var1.error);
+    //         // button.GetComponent<Image>().color = Color.red;
+    //         //Thread.Sleep(5000);
+    //     }
+    //     else
+    //     {
+    //         Debug.Log("File successfully downloaded and saved to " + pathZip);
+    //         // button.GetComponent<Image>().color = Color.green;
+    //         // Thread.Sleep(3000);
+    //         string pathExtract = Path.Combine(Application.persistentDataPath, "ExtractedFiles");
+    //         // Reference - adapted from ChatGPT-5 (OpenAI)
+    //         Directory.CreateDirectory(pathExtract);
+    //         // Reference - adapted from: https://docs.unity3d.com/Packages/com.unity.sharp-zip-lib@1.4/manual/index.html
+    //         ZipUtility.UncompressFromZip(pathZip, null, pathExtract);
+    //         //Thread.Sleep(5000);
+    //         Debug.Log("Now calling animation method!");
+
+    //         // fix!
+    //         ventricle.GetComponent<VentricleAnimation>().build(pathExtract);
+    //     }
+    // }
 
     // Update is called once per frame
     void Update()

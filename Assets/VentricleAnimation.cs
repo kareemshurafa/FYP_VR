@@ -1,7 +1,13 @@
 using UnityEngine;
+using Unity.SharpZipLib.Utils;
 using System.IO;
+using UnityEngine.Networking;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using System.Threading;
 using Dummiesman;
+using TMPro;
 
 public class VentricleAnimation : MonoBehaviour
 {
@@ -33,8 +39,46 @@ public class VentricleAnimation : MonoBehaviour
 
     }
 
+    public IEnumerator DownloadAndExtractFiles(string URL) 
+    {
+        // string url = File.ReadAllText(urlpath).Trim();
+        // var urlfile = Resources.Load<TextAsset>(resourcespath);
+        // string url = urlfile.ToString().Trim();
+        var var1 = new UnityWebRequest(URL, UnityWebRequest.kHttpVerbGET);
+        
+        // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Application-persistentDataPath.html
+        // Need to save files in appropriate file location for VR headset to access at runtime
+        string pathZip = Path.Combine(Application.persistentDataPath, "files1.zip");
+        var1.downloadHandler = new DownloadHandlerFile(pathZip);
+        yield return var1.SendWebRequest();
+        
+        if (var1.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError(var1.error);
+            // button.GetComponent<Image>().color = Color.red;
+            //Thread.Sleep(5000);
+        }
+        
+        else
+        {
+            Debug.Log("File successfully downloaded and saved to " + pathZip);
+            // button.GetComponent<Image>().color = Color.green;
+            // Thread.Sleep(3000);
+            string pathExtract = Path.Combine(Application.persistentDataPath, "ExtractedFiles");
+            // Reference - adapted from ChatGPT-5 (OpenAI)
+            Directory.CreateDirectory(pathExtract);
+            // Reference - adapted from: https://docs.unity3d.com/Packages/com.unity.sharp-zip-lib@1.4/manual/index.html
+            ZipUtility.UncompressFromZip(pathZip, null, pathExtract);
+            //Thread.Sleep(5000);
+            Debug.Log("Now calling animation method!");
 
-    public void build(string pathExtract)
+            // fix!
+            //build(pathExtract);
+            StartCoroutine(BuildModel(pathExtract));
+        }
+    }    
+
+    public IEnumerator BuildModel(string pathExtract)
     {
         // locate files in folder
         // foreach .obj file:
@@ -53,6 +97,7 @@ public class VentricleAnimation : MonoBehaviour
             // Reference - https://assetstore.unity.com/packages/tools/modeling/runtime-obj-importer-49547
             GameObject gameobj = new OBJLoader().Load(obj);
 
+            
             Mesh mesh1 = gameobj.GetComponentInChildren<MeshFilter>().mesh;
             // Reference - https://docs.unity3d.com/6000.2/Documentation/ScriptReference/Mesh.html
             mesh1.RecalculateNormals();
@@ -60,6 +105,7 @@ public class VentricleAnimation : MonoBehaviour
             mesh1.RecalculateTangents();
             meshList.Add(mesh1);
             Destroy(gameobj);
+            yield return null;
         }
         Debug.Log("Extracted Meshes from objs!");
         // Add a MeshFilter component to display the meshes in the list
@@ -77,7 +123,12 @@ public class VentricleAnimation : MonoBehaviour
         Debug.Log("Setting exist equal to true!");
         exist = true;
 
-        panel.GetComponent<ImageAnimation>().build(pathExtract);
+        panel.GetComponent<ImageAnimation>().build(pathExtract);        
+    }
+
+
+    public void build(string pathExtract)
+    {
 
     }
 }
