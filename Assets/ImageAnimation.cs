@@ -8,17 +8,19 @@ using System.Threading;
 
 public class ImageAnimation : MonoBehaviour
 {
-    public static List<Texture2D> image1Textures = new List<Texture2D>();
-    public static List<Texture2D> image2Textures = new List<Texture2D>();
-    public static List<Texture2D> image3Textures = new List<Texture2D>();
-    public static List<Texture2D> image4Textures = new List<Texture2D>();
-    public static List<Texture2D> image5Textures = new List<Texture2D>();
-    public static List<Texture2D> image6Textures = new List<Texture2D>();
+    // public static List<Texture2D> image1Textures = new List<Texture2D>();
+    // public static List<Texture2D> image2Textures = new List<Texture2D>();
+    // public static List<Texture2D> image3Textures = new List<Texture2D>();
+    // public static List<Texture2D> image4Textures = new List<Texture2D>();
+    // public static List<Texture2D> image5Textures = new List<Texture2D>();
+    // public static List<Texture2D> image6Textures = new List<Texture2D>();
     public static List<List<Texture2D>> imageTexturesList = new List<List<Texture2D>>();
     public static bool play;
     public static int playCounter = 0;
     public static int count = 0;
     public static float timer = 0.0f;
+    [SerializeField] public GameObject scanParent;
+    [SerializeField] public GameObject loadAnimation;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,7 +33,7 @@ public class ImageAnimation : MonoBehaviour
     {
         if (play)
         {
-            timer += 0.1f;
+            timer += 0.5f;
             incrementer();
         }
     }
@@ -137,6 +139,8 @@ public class ImageAnimation : MonoBehaviour
             raws4.texture = imageTexturesList[3][playCounter];
             raws5.texture = imageTexturesList[4][playCounter];
             raws6.texture = imageTexturesList[5][playCounter];
+            scanParent.GetComponent<CubeScans>().incrementer(playCounter);
+
             playCounter++;
             timer = 0.0f;
             if (playCounter >= count) 
