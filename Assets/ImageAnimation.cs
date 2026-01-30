@@ -68,6 +68,7 @@ public class ImageAnimation : MonoBehaviour
             }
         }
         Debug.Log("Min count: " + count);
+        scanParent.GetComponent<CubeScans>().buildImage();
     }
 
     public void buildImage(string pathExtract, int pngIndex, int index)
@@ -91,7 +92,9 @@ public class ImageAnimation : MonoBehaviour
             byte[] byteImage1 = File.ReadAllBytes(pngPathList[i]);
             // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/ImageConversion.LoadImage.html
             // the textures will get overwritten, so creating an arbitrary file for now
-            Texture2D texImage1 = new Texture2D(2, 2);
+            // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Texture2D-ctor.html
+            // using Alpha8 
+            Texture2D texImage1 = new Texture2D(2, 2, TextureFormat.Alpha8, false);
             ImageConversion.LoadImage(texImage1, byteImage1);
             imageTexturesList[index].Add(texImage1);
         }

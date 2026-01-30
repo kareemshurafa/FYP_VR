@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using System.Threading;
 using Dummiesman;
 using TMPro;
+using UnityEditor;
 
 public class VentricleAnimation : MonoBehaviour
 {
@@ -109,19 +110,22 @@ public class VentricleAnimation : MonoBehaviour
         }
         Debug.Log("Extracted Meshes from objs!");
         // Add a MeshFilter component to display the meshes in the list
-        MeshFilter meshFilter = gameObject.AddComponent<MeshFilter>();
+        // MeshFilter meshFilter = gameObject.AddComponent<MeshFilter>();
 
         Debug.Log("Now adding meshRenderer!");
         // Add a MeshRenderer component and set to red
-        meshRenderer = gameObject.AddComponent<MeshRenderer>();
-        // meshRenderer.material.shader = Shader.Find("Universal Render Pipeline/Lit");
+        meshRenderer = gameObject.GetComponent<MeshRenderer>();
+        meshRenderer.material.shader = Shader.Find("Universal Render Pipeline/Lit");
         // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Color-ctor.html
-        meshRenderer.material.color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
         // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Renderer-material.html
         Material mat = GetComponent<Renderer>().material;
         Debug.Log("Finding material: " + mat.name + " and shader: " + mat.shader);
         Debug.Log("Setting exist equal to true!");
         exist = true;
+        // the material used is a child variant of the parent Lit from Universal Render Pipeline (built-in with Unity)
+        // the main difference is the Surface Type is set to Transparent with a Blending Mode of Alpha
+        // this allows for the ability to change the opacity of the model
+        meshRenderer.material.color = new Color(1.0f, 0.0f, 0.0f, 0.1f);
 
         panel.GetComponent<ImageAnimation>().build(pathExtract);        
     }
