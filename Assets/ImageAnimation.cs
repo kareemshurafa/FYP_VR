@@ -20,7 +20,7 @@ public class ImageAnimation : MonoBehaviour
     public static int count = 0;
     public static float timer = 0.0f;
     [SerializeField] public GameObject scanParent;
-    [SerializeField] public GameObject loadAnimation;
+    [SerializeField] public GameObject ventricle;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,7 +33,7 @@ public class ImageAnimation : MonoBehaviour
     {
         if (play)
         {
-            timer += 0.5f;
+            timer += 0.25f;
             incrementer();
         }
     }
@@ -143,6 +143,8 @@ public class ImageAnimation : MonoBehaviour
             raws5.texture = imageTexturesList[4][playCounter];
             raws6.texture = imageTexturesList[5][playCounter];
             scanParent.GetComponent<CubeScans>().incrementer(playCounter);
+            ventricle.GetComponent<VentricleAnimation>().incrementer(playCounter);
+
 
             playCounter++;
             timer = 0.0f;

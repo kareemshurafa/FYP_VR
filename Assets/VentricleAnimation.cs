@@ -13,7 +13,7 @@ using UnityEditor;
 public class VentricleAnimation : MonoBehaviour
 {
     // Serialized list to hold the meshes
-    [SerializeField] public List<Mesh> meshList = new List<Mesh>();
+    [SerializeField] public static List<Mesh> meshList = new List<Mesh>();
 
     // Serialized mesh renderer
     [SerializeField] public MeshRenderer meshRenderer;
@@ -125,14 +125,17 @@ public class VentricleAnimation : MonoBehaviour
         // the material used is a child variant of the parent Lit from Universal Render Pipeline (built-in with Unity)
         // the main difference is the Surface Type is set to Transparent with a Blending Mode of Alpha
         // this allows for the ability to change the opacity of the model
-        meshRenderer.material.color = new Color(1.0f, 0.0f, 0.0f, 0.1f);
+        meshRenderer.material.color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
+
+        // initialise first mesh:
+        GetComponent<MeshFilter>().mesh = meshList[0];
 
         panel.GetComponent<ImageAnimation>().build(pathExtract);        
     }
 
 
-    public void build(string pathExtract)
+    public void incrementer(int playCounter)
     {
-
+        GetComponent<MeshFilter>().mesh = meshList[playCounter];
     }
 }

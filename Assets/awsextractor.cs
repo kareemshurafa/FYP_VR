@@ -58,7 +58,7 @@ public class awsextractor : MonoBehaviour
             ZipUtility.UncompressFromZip(pathZip, null, pathExtract);
             //Thread.Sleep(5000);
             Debug.Log("Now calling animation method!");
-            ventricle.GetComponent<VentricleAnimation>().build(pathExtract);
+            //ventricle.GetComponent<VentricleAnimation>().build(pathExtract);
         }
     }
 

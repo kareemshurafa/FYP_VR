@@ -10,7 +10,7 @@ public class LoadAnimation : MonoBehaviour
     void Start()
     {
         Debug.Log("Getting meshList!");
-        meshList = GetComponent<VentricleAnimation>().meshList;
+        //meshList = GetComponent<VentricleAnimation>().meshList;
         Debug.Log("Now calling meshList update!");
         
         Debug.Log("Position" + transform.position);
