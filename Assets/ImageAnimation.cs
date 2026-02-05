@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 
 public class ImageAnimation : MonoBehaviour
 {
@@ -19,13 +20,18 @@ public class ImageAnimation : MonoBehaviour
     public static int playCounter = 0;
     public static int count = 0;
     public static float timer = 0.0f;
+    public static float timerIncrementer;
     [SerializeField] public GameObject scanParent;
     [SerializeField] public GameObject ventricle;
+    [SerializeField] public Slider speedSlider;
+    [SerializeField] public TMP_Text speedText;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         play = false;
+        timerIncrementer = 0.5f;
+        speedText.text = "Speed: " + timerIncrementer;
     }
 
     // Update is called once per frame
@@ -33,10 +39,20 @@ public class ImageAnimation : MonoBehaviour
     {
         if (play)
         {
-            timer += 0.25f;
+            timer += timerIncrementer;
             incrementer();
         }
     }
+
+    public void speedSliderChange()
+    {
+        // Reference - adapted from: https://docs.unity3d.com/540/Documentation/ScriptReference/UI.Slider-onValueChanged.html (legacy documentation)
+        timerIncrementer = (float) speedSlider.value/10;
+        speedText.text = "Speed: " + (float) speedSlider.value/10;
+        Debug.Log("changing speed slider valuer to: " + speedSlider.value + " with incrementer value of :" + timerIncrementer);
+    }
+
+
 
     public void build(string pathExtract)
     {

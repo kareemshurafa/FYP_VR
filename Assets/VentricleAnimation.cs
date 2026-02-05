@@ -28,6 +28,10 @@ public class VentricleAnimation : MonoBehaviour
 
     bool exist = false;
 
+    [SerializeField] public Slider opacitySlider;
+
+    [SerializeField] public TMP_Text opacityText;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -137,5 +141,14 @@ public class VentricleAnimation : MonoBehaviour
     public void incrementer(int playCounter)
     {
         GetComponent<MeshFilter>().mesh = meshList[playCounter];
+    }
+
+    public void opacitySliderChange()
+    {
+        // Reference - adapted from: https://docs.unity3d.com/540/Documentation/ScriptReference/UI.Slider-onValueChanged.html (legacy documentation)
+        meshRenderer.material.color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
+        opacityText.text = "Opacity: " + (float) opacitySlider.value/20;
+        meshRenderer.material.color = new Color(1.0f, 0.0f, 0.0f,(float) opacitySlider.value/20);
+        Debug.Log("changing opacity slider valuer to: " + opacitySlider.value);
     }
 }
