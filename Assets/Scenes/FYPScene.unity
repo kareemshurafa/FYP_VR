@@ -1473,6 +1473,7 @@ GameObject:
   - component: {fileID: 340125612}
   - component: {fileID: 340125614}
   - component: {fileID: 340125613}
+  - component: {fileID: 340125615}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -1538,6 +1539,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 340125611}
   m_CullTransparentMesh: 1
+--- !u!225 &340125615
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340125611}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &359272480
 GameObject:
   m_ObjectHideFlags: 0
@@ -2354,6 +2367,7 @@ GameObject:
   - component: {fileID: 499372377}
   - component: {fileID: 499372379}
   - component: {fileID: 499372378}
+  - component: {fileID: 499372380}
   m_Layer: 5
   m_Name: RawImage
   m_TagString: Untagged
@@ -2415,6 +2429,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 499372376}
   m_CullTransparentMesh: 1
+--- !u!225 &499372380
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499372376}
+  m_Enabled: 1
+  m_Alpha: 0.5
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 1
 --- !u!1 &518521003
 GameObject:
   m_ObjectHideFlags: 0
@@ -2426,6 +2452,7 @@ GameObject:
   - component: {fileID: 518521004}
   - component: {fileID: 518521006}
   - component: {fileID: 518521005}
+  - component: {fileID: 518521007}
   m_Layer: 5
   m_Name: RawImage
   m_TagString: Untagged
@@ -2487,6 +2514,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 518521003}
   m_CullTransparentMesh: 1
+--- !u!225 &518521007
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518521003}
+  m_Enabled: 1
+  m_Alpha: 0.5
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 1
 --- !u!1 &557773043
 GameObject:
   m_ObjectHideFlags: 0
@@ -3980,6 +4019,7 @@ GameObject:
   - component: {fileID: 842286729}
   - component: {fileID: 842286731}
   - component: {fileID: 842286730}
+  - component: {fileID: 842286732}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -4045,6 +4085,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 842286728}
   m_CullTransparentMesh: 1
+--- !u!225 &842286732
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842286728}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &850217270
 GameObject:
   m_ObjectHideFlags: 0
@@ -5875,6 +5927,7 @@ GameObject:
   - component: {fileID: 1153268917}
   - component: {fileID: 1153268919}
   - component: {fileID: 1153268918}
+  - component: {fileID: 1153268920}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -5940,6 +5993,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1153268916}
   m_CullTransparentMesh: 1
+--- !u!225 &1153268920
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153268916}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1181623142
 GameObject:
   m_ObjectHideFlags: 0
@@ -6935,6 +7000,7 @@ GameObject:
   - component: {fileID: 1493114495}
   - component: {fileID: 1493114497}
   - component: {fileID: 1493114496}
+  - component: {fileID: 1493114498}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -7000,6 +7066,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1493114494}
   m_CullTransparentMesh: 1
+--- !u!225 &1493114498
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1493114494}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1519936919
 GameObject:
   m_ObjectHideFlags: 0
@@ -7726,6 +7804,7 @@ GameObject:
   - component: {fileID: 1687261879}
   - component: {fileID: 1687261881}
   - component: {fileID: 1687261880}
+  - component: {fileID: 1687261882}
   m_Layer: 5
   m_Name: RawImage
   m_TagString: Untagged
@@ -7787,6 +7866,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687261878}
   m_CullTransparentMesh: 1
+--- !u!225 &1687261882
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687261878}
+  m_Enabled: 1
+  m_Alpha: 0.5
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 1
 --- !u!1 &1691389626
 GameObject:
   m_ObjectHideFlags: 0
@@ -10133,6 +10224,7 @@ GameObject:
   - component: {fileID: 2064607688}
   - component: {fileID: 2064607690}
   - component: {fileID: 2064607689}
+  - component: {fileID: 2064607691}
   m_Layer: 5
   m_Name: RawImage
   m_TagString: Untagged
@@ -10194,6 +10286,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2064607687}
   m_CullTransparentMesh: 1
+--- !u!225 &2064607691
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064607687}
+  m_Enabled: 1
+  m_Alpha: 0.5
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 1
 --- !u!1 &2072422300
 GameObject:
   m_ObjectHideFlags: 0
@@ -10636,7 +10740,7 @@ Transform:
   m_GameObject: {fileID: 2103212257}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.172, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
