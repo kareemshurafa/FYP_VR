@@ -30,10 +30,15 @@ public class VectorCalculator : MonoBehaviour
             Vector3 vecE = vecC - vecA;
 
             // crossing vectors and normalising to find normal vector
-            Vector3 normal = Vector3.Cross(vecD, vecE).normalized;
+            Vector3 normal = Vector3.Cross(vecE, vecD).normalized;
 
+            // Reference - ChatGPT-5
+            // we obtain the edge vector (vecEdge) defined as a chosen edge direction
+            Vector3 vecEdge = vecD.normalized;
+            // we then obtain the perpendicular vector of the normal and vecEdge to define a new consistent axis
+            Vector3 vecPerpendicular = Vector3.Cross(normal, vecEdge).normalized;
             // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Quaternion.LookRotation.html
-            Quaternion rotation = Quaternion.LookRotation(normal);
+            Quaternion rotation = Quaternion.LookRotation(normal, vecPerpendicular);
 
             GameObject child = transform.GetChild(i).gameObject;
             child.transform.rotation = rotation;
