@@ -1,60 +1,27 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class VectorCalculator : MonoBehaviour
 {
+    
+    [SerializeField] List<Texture2D> imageTexturesList1 = new List<Texture2D>();
+    [SerializeField] List<Texture2D> imageTexturesList2 = new List<Texture2D>();
+    [SerializeField] List<Texture2D> imageTexturesList3 = new List<Texture2D>();
+    [SerializeField] List<Texture2D> imageTexturesList4 = new List<Texture2D>();
+    [SerializeField] List<Texture2D> imageTexturesList5 = new List<Texture2D>();
+
+    public static int playCounter = 0;
+
+    public static int count = 93;
+
+    public static float timer = 0.0f;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // // Reference - https://docs.unity3d.com/Packages/com.unity.ugui@2.0/manual/class-CanvasGroup.html
-        // // making semi transparent
-
-        // // list to hold vectors
-        // List<List<float>> vectors_first = new List<List<float>> { new List<float> {-73.5827f, 35.3296f, 125.2187f} , new List<float> {-80.3740f, 6.1151f, 124.7174f}, 
-        // new List<float> {-142.7890f, 36.7240f, 27.2139f}, new List<float> {-122.2727f, 89.2387f, -37.3604f}, new List<float> {26.7434f, 121.0056f, -117.8789f}};
-        // List<List<float>> vectors_second = new List<List<float>> { new List<float> {-99.7267f,  72.7450f,  16.1987f}, new List<float> {-101.4347f,   61.4907f,   22.4493f}, 
-        // new List<float> {-109.8808f,  -52.6082f,  -42.8261f}, new List<float> {-93.5513f, -10.0629f, -94.6584f}, new List<float> {  28.0472f,    6.5079f, -147.1596f} };
-        // List<List<float>> vectors_third = new List<List<float>> { new List<float> {-61.2490f,  46.6338f,  -2.1288f}, new List<float> {-62.2933f,  38.3414f,   1.7058f}, 
-        // new List<float> {-61.8589f, -40.8828f, -35.4343f}, new List<float> {-52.8998f, -14.9943f, -65.9991f}, new List<float> {19.2864f,  -5.9015f, -99.5416f} };
-
-        // for (int i = 0; i < 5; i++) {
-            
-        //     // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Vector3.html
-        //     // obtaining 3 vectors
-        //     Vector3 vecA = new Vector3(vectors_first[i][0], vectors_first[i][1], vectors_first[i][2]);
-        //     Vector3 vecB = new Vector3(vectors_second[i][0], vectors_second[i][1], vectors_second[i][2]);
-        //     Vector3 vecC = new Vector3(vectors_third[i][0], vectors_third[i][1], vectors_third[i][2]);
-
-        //     // finding vector differences
-        //     Vector3 vecD = vecB - vecA;
-        //     Vector3 vecE = vecC - vecA;
-
-        //     // crossing vectors and normalising to find normal vector
-        //     Vector3 normal = Vector3.Cross(vecE, vecD).normalized;
-
-        //     // Reference - ChatGPT-5
-        //     // we obtain the edge vector (vecEdge) defined as a chosen edge direction
-        //     Vector3 vecEdge = vecD.normalized;
-        //     // we then obtain the perpendicular vector of the normal and vecEdge to define a new consistent axis
-        //     Vector3 vecPerpendicular = Vector3.Cross(normal, vecEdge).normalized;
-        //     // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Quaternion.LookRotation.html
-        //     Quaternion rotation = Quaternion.LookRotation(normal, vecPerpendicular);
-
-        //     GameObject child = transform.GetChild(i).gameObject;
-        //     child.transform.rotation = rotation;
-        // }
-
-
-        // Matrix for scan view 1:
-        // 93.162712 -20.256348 0.000000 31.170082
-        // -63.220787 28.854599 0.000000 -76.524963
-        // -44.374756 -83.636475 1.000000 283.098083
-        // 0.000000 0.000000 0.000000 1.000000
-
-        
         // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Matrix4x4.html
         // first 3 columns are x, y, z axes, and last column contains position information
-        //Vector3 xAxis = 
         Matrix4x4 matrix1 = new Matrix4x4(new Vector4 (93.162712f, -63.220787f,-44.374756f,0.000000f), new Vector4 (-20.256348f, 28.854599f,-83.636475f,0.000000f), 
                                         new Vector4 (0.000000f, 0.000000f,1.000000f,0.000000f), new Vector4 (31.170082f, -76.524963f,283.098083f,1.000000f));
 
@@ -77,14 +44,32 @@ public class VectorCalculator : MonoBehaviour
         matrixList.Add(matrix4);
         matrixList.Add(matrix5);
 
+        Debug.Log("column 1 magnitude: " + matrixList[0].GetColumn(0).magnitude);
+        Debug.Log("column 2 magnitude: " + matrixList[0].GetColumn(1).magnitude);
+        Debug.Log("column 3 magnitude: " + matrixList[0].GetColumn(2).magnitude);
+        
         // first affine position to subtract from all positions
         // need to divide by 1000 to convert from mm scale to m scale in Unity
-        Vector3 firstPosition = matrixList[0].GetColumn(3)/1000;
+        Vector3 firstPosition = matrixList[0].GetColumn(3)/1000f;
+
+        float halfX = matrixList[0].GetColumn(0).magnitude / 1000f / 2f;
+        float halfY = matrixList[0].GetColumn(1).magnitude / 1000f / 2f;
+        Vector3 half = new Vector3(halfX, -halfY, 0);
+        firstPosition += half; 
+        firstPosition.z = -firstPosition.z;
+
         Debug.Log("first position = " + firstPosition);
         
         for (int i = 0; i < 5; i++) {
             Matrix4x4 matrix = matrixList[i];
-            Vector3 imagePosition = matrix.GetColumn(3)/1000;
+            Vector3 imagePosition = matrix.GetColumn(3)/1000f;
+            
+            float halfXX = matrix.GetColumn(0).magnitude / 1000f / 2f;
+            float halfYY = matrix.GetColumn(1).magnitude / 1000f / 2f;
+            Vector3 halff = new Vector3(halfXX, -halfYY, 0);
+            imagePosition += halff; 
+            
+            imagePosition.z = -imagePosition.z;
             Debug.Log("image position = " + imagePosition);
 
             // Reference - adapted from ChatGPT-5.0
@@ -103,25 +88,44 @@ public class VectorCalculator : MonoBehaviour
             child.transform.rotation = rotation;
             // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Transform-localPosition.html
             child.transform.localPosition = imagePosition - firstPosition;
+
+            Debug.Log("finished for image!" + i);
         }
         
-
-        
-
-
-
-
-
-
-
-    
-    
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        timer += 0.05f;
+        Debug.Log("Timer not done");
+        if (timer >= 1.0f)
+        {
+            // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Component.GetComponentInChildren.html
+            GameObject child1 = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+            GameObject child2 = transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+            GameObject child3 = transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+            GameObject child4 = transform.GetChild(3).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+            GameObject child5 = transform.GetChild(4).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+            
+            RawImage raws1 = child1.GetComponent<RawImage>();
+            RawImage raws2 = child2.GetComponent<RawImage>();
+            RawImage raws3 = child3.GetComponent<RawImage>();
+            RawImage raws4 = child4.GetComponent<RawImage>();
+            RawImage raws5 = child5.GetComponent<RawImage>();
+
+            raws1.texture = imageTexturesList1[playCounter];
+            raws2.texture = imageTexturesList2[playCounter];
+            raws3.texture = imageTexturesList3[playCounter];
+            raws4.texture = imageTexturesList4[playCounter];
+            raws5.texture = imageTexturesList5[playCounter];
+            playCounter++;
+            Debug.Log("Incremented!");
+            timer = 0.0f;
+            if (playCounter >= count) 
+            {
+                playCounter = 0;
+            }
+        }
     }
 }
