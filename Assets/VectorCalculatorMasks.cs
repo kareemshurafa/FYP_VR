@@ -67,7 +67,7 @@ public class VectorCalculatorMasks : MonoBehaviour
             float halfXX = matrix.GetColumn(0).magnitude / 1000f / 2f;
             float halfYY = matrix.GetColumn(1).magnitude / 1000f / 2f;
             
-            Vector3 halff = new Vector3(-halfXX, +halfYY, 0);
+            Vector3 halff = new Vector3(-halfXX, -halfYY, 0);
             // imagePosition += halff; 
             
             imagePosition.z = -imagePosition.z;
@@ -102,15 +102,15 @@ public class VectorCalculatorMasks : MonoBehaviour
     void Update()
     {
         timer += 0.05f;
-        Debug.Log("Timer not done");
+        // Debug.Log("Timer not done");
         if (timer >= 1.0f)
         {
             // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Component.GetComponentInChildren.html
-            GameObject child1 = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
-            GameObject child2 = transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).gameObject;
-            GameObject child3 = transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).gameObject;
-            GameObject child4 = transform.GetChild(3).GetChild(0).GetChild(0).GetChild(0).gameObject;
-            GameObject child5 = transform.GetChild(4).GetChild(0).GetChild(0).GetChild(0).gameObject;
+            GameObject child1 = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+            GameObject child2 = transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+            GameObject child3 = transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+            GameObject child4 = transform.GetChild(3).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+            GameObject child5 = transform.GetChild(4).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
             
             RawImage raws1 = child1.GetComponent<RawImage>();
             RawImage raws2 = child2.GetComponent<RawImage>();
@@ -124,7 +124,7 @@ public class VectorCalculatorMasks : MonoBehaviour
             raws4.texture = imageTexturesList4[playCounter];
             raws5.texture = imageTexturesList5[playCounter];
             playCounter++;
-            Debug.Log("Incremented!");
+            // Debug.Log("Incremented!");
             timer = 0.0f;
             if (playCounter >= count) 
             {

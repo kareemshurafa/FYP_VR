@@ -52,22 +52,23 @@ public class VectorCalculator : MonoBehaviour
         // need to divide by 1000 to convert from mm scale to m scale in Unity
         Vector3 firstPosition = matrixList[0].GetColumn(3)/1000f;
 
-        float halfX = matrixList[0].GetColumn(0).magnitude / 1000f / 2f;
-        float halfY = matrixList[0].GetColumn(1).magnitude / 1000f / 2f;
-        Vector3 half = new Vector3(halfX, -halfY, 0);
-        firstPosition += half; 
-        firstPosition.z = -firstPosition.z;
+        // float halfX = matrixList[0].GetColumn(0).magnitude / 1000f / 2f;
+        // float halfY = matrixList[0].GetColumn(1).magnitude / 1000f / 2f;
+        // Vector3 half = new Vector3(halfX, -halfY, 0);
+        // firstPosition += half; 
+        // firstPosition.z = -firstPosition.z;
 
         Debug.Log("first position = " + firstPosition);
         
         for (int i = 0; i < 5; i++) {
             Matrix4x4 matrix = matrixList[i];
-            Vector3 imagePosition = matrix.GetColumn(3)/1000f;
             
+            Vector3 imagePosition = matrix.GetColumn(3)/1000f;
             float halfXX = matrix.GetColumn(0).magnitude / 1000f / 2f;
             float halfYY = matrix.GetColumn(1).magnitude / 1000f / 2f;
-            Vector3 halff = new Vector3(halfXX, -halfYY, 0);
-            imagePosition += halff; 
+            
+            Vector3 halff = new Vector3(-halfXX, -halfYY, 0);
+            // imagePosition += halff; 
             
             imagePosition.z = -imagePosition.z;
             Debug.Log("image position = " + imagePosition);
@@ -84,10 +85,13 @@ public class VectorCalculator : MonoBehaviour
             // extract position and rotation from the matrix
             Quaternion rotation = matrix.rotation;
             
-            GameObject child = transform.GetChild(i).gameObject;
-            child.transform.rotation = rotation;
+            GameObject empty = transform.GetChild(i).gameObject;
+            GameObject quad = transform.GetChild(i).GetChild(0).gameObject;
+            
+            empty.transform.rotation = rotation;
+            empty.transform.localPosition = imagePosition - firstPosition;
             // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Transform-localPosition.html
-            child.transform.localPosition = imagePosition - firstPosition;
+            quad.transform.localPosition = halff;
 
             Debug.Log("finished for image!" + i);
         }
@@ -98,7 +102,7 @@ public class VectorCalculator : MonoBehaviour
     void Update()
     {
         timer += 0.05f;
-        Debug.Log("Timer not done");
+        // Debug.Log("Timer not done");
         if (timer >= 1.0f)
         {
             // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Component.GetComponentInChildren.html
@@ -120,7 +124,7 @@ public class VectorCalculator : MonoBehaviour
             raws4.texture = imageTexturesList4[playCounter];
             raws5.texture = imageTexturesList5[playCounter];
             playCounter++;
-            Debug.Log("Incremented!");
+            // Debug.Log("Incremented!");
             timer = 0.0f;
             if (playCounter >= count) 
             {
