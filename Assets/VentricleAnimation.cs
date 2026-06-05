@@ -32,6 +32,10 @@ public class VentricleAnimation : MonoBehaviour
 
     [SerializeField] public TMP_Text opacityText;
 
+    [SerializeField] public TMP_InputField nameText;
+
+    public static string[] affinesList;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -90,14 +94,41 @@ public class VentricleAnimation : MonoBehaviour
         //   load into game
         //   extract mesh + add to list
         //   delete (will keep initially to test it working)
+
+        // extracted file in folder with case name
+        string name = nameText.text;
+        if (name.EndsWith(".zip"))
+        {
+            // Reference - https://learn.microsoft.com/en-us/dotnet/standard/base-types/trimming
+            name = name.Replace(".zip", "");
+        }
+        Debug.Log("Name string " + name);
+
+        // Reference - https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/verbatim
+        // need to indicate the string literal via @
+        string affinesPath = Path.Combine(pathExtract, name + @"\affines");
+        string objsPath = Path.Combine(pathExtract, name + @"\objs");
+        string pngsPath = Path.Combine(pathExtract, name + @"\pngs");
+        string predictionsPath = Path.Combine(pathExtract, name + @"\predictions");
+
         // Reference - https://learn.microsoft.com/en-us/dotnet/api/system.io.directory?view=net-9.0
         Debug.Log("Building obj files!");
-        string[] objPaths = Directory.GetFiles(pathExtract, "*.obj");
-        string[] pngPaths = Directory.GetFiles(pathExtract, "*.png");
-        Debug.Log("Number of pngs: " + pngPaths.Length);
-        Debug.Log("Number of objs: " + objPaths.Length);
+        // string[] objPaths = Directory.GetFiles(pathExtract, "*.obj");
+        // string[] pngPaths = Directory.GetFiles(pathExtract, "*.png");
+        // string[] predictionPaths = Directory.GetFiles(pathExtract, "*prediction.png");
+        affinesList = Directory.GetFiles(affinesPath, "*.txt");
+        string[] objsList = Directory.GetFiles(objsPath, "*.obj");
+        string[] pngsList = Directory.GetFiles(pngsPath, "*.png");
+        string[] predictionsList = Directory.GetFiles(predictionsPath, "*.png");
+        // Debug.Log("Number of pngs: " + pngPaths.Length);
+        // Debug.Log("Number of objs: " + objPaths.Length);
+        Debug.Log("Number of affines: " + affinesList.Length);
+        Debug.Log("Number of objs: " + objsList.Length);
+        Debug.Log("Number of pngs: " + pngsList.Length);
+        Debug.Log("Number of predictions: " + predictionsList.Length);
+        
         meshList = new List<Mesh>();
-        foreach (string obj in objPaths)
+        foreach (string obj in objsList)
         {
             // Reference - https://assetstore.unity.com/packages/tools/modeling/runtime-obj-importer-49547
             GameObject gameobj = new OBJLoader().Load(obj);
@@ -134,7 +165,13 @@ public class VentricleAnimation : MonoBehaviour
         // initialise first mesh:
         GetComponent<MeshFilter>().mesh = meshList[0];
 
-        panel.GetComponent<ImageAnimation>().build(pathExtract);        
+        
+        panel.GetComponent<ImageAnimation>().build(pngsList, 1);
+        
+        if (predictionsList.Length > 0)
+        {
+            panel.GetComponent<ImageAnimation>().build(predictionsList, 2); 
+        } 
     }
 
 
