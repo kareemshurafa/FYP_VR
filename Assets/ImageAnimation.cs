@@ -43,7 +43,10 @@ public class ImageAnimation : MonoBehaviour
         if (play)
         {
             timer += timerIncrementer;
-            incrementer();
+            if (timer > 1.0)
+            {
+                incrementer();
+            }
         }
     }
 
@@ -257,26 +260,22 @@ public class ImageAnimation : MonoBehaviour
 
     public void incrementer()
     {
-        if (timer >= 1.0f)
+        for (int i = 0; i < imageTexturesList.Count ; i++)
         {
-            
-            for (int i = 0; i < imageTexturesList.Count ; i++)
-            {
-                GameObject child = transform.GetChild(i).gameObject;
-                RawImage raws = child.GetComponent<RawImage>();
-                raws.texture = imageTexturesList[i][playCounter];
-            }
-            
-            scanParent.GetComponent<PNGScans>().incrementer(playCounter, imageTexturesList.Count);
-            scanParent2.GetComponent<PredictionScans>().incrementer(playCounter, imageTexturesList.Count);
-            ventricle.GetComponent<VentricleAnimation>().incrementer(playCounter);
+            GameObject child = transform.GetChild(i).gameObject;
+            RawImage raws = child.GetComponent<RawImage>();
+            raws.texture = imageTexturesList[i][playCounter];
+        }
+        
+        scanParent.GetComponent<PNGScans>().incrementer(playCounter, imageTexturesList.Count);
+        scanParent2.GetComponent<PredictionScans>().incrementer(playCounter, imageTexturesList.Count);
+        ventricle.GetComponent<VentricleAnimation>().incrementer(playCounter);
 
-            playCounter++;
-            timer = 0.0f;
-            if (playCounter >= count) 
-            {
-                playCounter = 0;
-            }
+        playCounter++;
+        timer = 0.0f;
+        if (playCounter >= count) 
+        {
+            playCounter = 0;
         }
     }   
 }

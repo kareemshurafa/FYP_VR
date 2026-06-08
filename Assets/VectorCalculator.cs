@@ -176,23 +176,23 @@ public class VectorCalculator : MonoBehaviour
                 Matrix4x4 matrix = matrixList[i];
                 
                 Vector3 imagePosition = matrix.GetColumn(3)/1000f;
-                float halfXX = matrix.GetColumn(0).magnitude / 1000f / 2f;
-                float halfYY = matrix.GetColumn(1).magnitude / 1000f / 2f;
+                // float halfXX = matrix.GetColumn(0).magnitude / 1000f / 2f;
+                // float halfYY = matrix.GetColumn(1).magnitude / 1000f / 2f;
                 
-                Vector3 halff = new Vector3(-halfXX, -halfYY, 0);
-                // imagePosition += halff; 
+                // Vector3 halff = new Vector3(-halfXX, -halfYY, 0);
+                // // imagePosition += halff; 
                 
-                imagePosition.z = -imagePosition.z;
-                Debug.Log("image position = " + imagePosition);
+                // imagePosition.z = -imagePosition.z;
+                // Debug.Log("image position = " + imagePosition);
 
-                // Reference - adapted from ChatGPT-5.0
-                // need to flip the z-axis inside the 4x4 matrix to account for difference in coordinate definitions
-                // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Matrix4x4.Scale.html
-                Vector3 zFlipVector = new Vector3 (1, 1, -1);
-                Matrix4x4 zFlipMatrix = Matrix4x4.Scale(zFlipVector);
-                Debug.Log("zFlipMatrix " + zFlipMatrix);
-                // need to convert the coordinate system by flipping z-axis
-                matrix = zFlipMatrix * matrix * zFlipMatrix;
+                // // Reference - adapted from ChatGPT-5.0
+                // // need to flip the z-axis inside the 4x4 matrix to account for difference in coordinate definitions
+                // // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Matrix4x4.Scale.html
+                // Vector3 zFlipVector = new Vector3 (1, 1, -1);
+                // Matrix4x4 zFlipMatrix = Matrix4x4.Scale(zFlipVector);
+                // Debug.Log("zFlipMatrix " + zFlipMatrix);
+                // // need to convert the coordinate system by flipping z-axis
+                // matrix = zFlipMatrix * matrix * zFlipMatrix;
 
                 // extract position and rotation from the matrix
                 Quaternion rotation = matrix.rotation;
@@ -201,9 +201,9 @@ public class VectorCalculator : MonoBehaviour
                 GameObject quad = transform.GetChild(i).GetChild(0).gameObject;
                 
                 empty.transform.rotation = rotation;
-                empty.transform.localPosition = imagePosition - firstPosition;
+                empty.transform.localPosition = imagePosition;
                 // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Transform-localPosition.html
-                quad.transform.localPosition = halff;
+                // quad.transform.localPosition = halff;
 
                 Debug.Log("finished for image!" + i);
             }

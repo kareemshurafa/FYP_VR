@@ -106,10 +106,10 @@ public class VentricleAnimation : MonoBehaviour
 
         // Reference - https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/verbatim
         // need to indicate the string literal via @
-        string affinesPath = Path.Combine(pathExtract, name + @"\affines");
-        string objsPath = Path.Combine(pathExtract, name + @"\objs");
-        string pngsPath = Path.Combine(pathExtract, name + @"\pngs");
-        string predictionsPath = Path.Combine(pathExtract, name + @"\predictions");
+        string affinesPath = Path.Combine(pathExtract, name + "/affines");
+        string objsPath = Path.Combine(pathExtract, name + "/objs");
+        string pngsPath = Path.Combine(pathExtract, name + "/pngs");
+        string predictionsPath = Path.Combine(pathExtract, name + "/predictions");
 
         // Reference - https://learn.microsoft.com/en-us/dotnet/api/system.io.directory?view=net-9.0
         Debug.Log("Building obj files!");
@@ -151,6 +151,7 @@ public class VentricleAnimation : MonoBehaviour
         // Add a MeshRenderer component and set to red
         meshRenderer = gameObject.GetComponent<MeshRenderer>();
         meshRenderer.material.shader = Shader.Find("Universal Render Pipeline/Lit");
+        // meshRenderer.material.shader = Shader.Find("Mobile/Unlit");
         // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Color-ctor.html
         // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Renderer-material.html
         Material mat = GetComponent<Renderer>().material;
