@@ -9,14 +9,7 @@ using TMPro;
 
 public class ImageAnimation : MonoBehaviour
 {
-    // public static List<Texture2D> image1Textures = new List<Texture2D>();
-    // public static List<Texture2D> image2Textures = new List<Texture2D>();
-    // public static List<Texture2D> image3Textures = new List<Texture2D>();
-    // public static List<Texture2D> image4Textures = new List<Texture2D>();
-    // public static List<Texture2D> image5Textures = new List<Texture2D>();
-    // public static List<Texture2D> image6Textures = new List<Texture2D>();
     public static List<List<Texture2D>> imageTexturesList = new List<List<Texture2D>>();
-
     public static List<List<Texture2D>> predictionTexturesList = new List<List<Texture2D>>();
     public static bool play;
     public static int playCounter = 0;
@@ -32,6 +25,7 @@ public class ImageAnimation : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // initially paused on load
         play = false;
         timerIncrementer = 0.5f;
         speedText.text = "Speed: " + timerIncrementer;
@@ -40,17 +34,20 @@ public class ImageAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // checks if play button is pressed
         if (play)
         {
+            // increments timer based on the speed selected
+            // calls Incrementer() that sends out updates to all images and models
             timer += timerIncrementer;
             if (timer > 1.0)
             {
-                incrementer();
+                Incrementer();
             }
         }
     }
 
-    public void speedSliderChange()
+    public void SpeedSliderChange()
     {
         // Reference - adapted from: https://docs.unity3d.com/540/Documentation/ScriptReference/UI.Slider-onValueChanged.html (legacy documentation)
         timerIncrementer = (float) speedSlider.value/10;
@@ -58,17 +55,16 @@ public class ImageAnimation : MonoBehaviour
         Debug.Log("changing speed slider valuer to: " + speedSlider.value + " with incrementer value of :" + timerIncrementer);
     }
 
-
-
-    public void build(string[] pngsList, int option)
+    public void Build(string[] pngsList, int option)
     {
         // Reference - https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex?view=netframework-4.8.1
-        // Extracting number indexes for pngs and predictions
+        // extracting number indexes for pngs and predictions
         Regex regex = new Regex("--[1-9]");
         List<string> indexes = new List<string>();
         
         foreach (string png in pngsList)
         {
+            // extracts the number of different views and their specific view numbers in the file name
             string split = regex.Match(png).ToString();
             Debug.Log("Match found: " + split);
             if (!indexes.Contains(split[2].ToString())) {
@@ -77,6 +73,7 @@ public class ImageAnimation : MonoBehaviour
         }
         Debug.Log("Indexes found length: " + indexes.Count);
         
+        // pngs
         if (option == 1)
         {
             // add lists to list of lists imageTextures
@@ -88,21 +85,8 @@ public class ImageAnimation : MonoBehaviour
             for (int i = 0; i < indexes.Count ; i++)
             {
                 // build the image lists for each of the different views
-                buildImage(pngsList, indexes[i], i, option);
+                BuildImage(pngsList, indexes[i], i, option);
             }
-
-            // // first view
-            // buildImage(pngsList, 1, 0, option);
-            // // second view
-            // buildImage(pngsList, 2, 1, option);
-            // // third view
-            // buildImage(pngsList, 3, 2, option);
-            // // fourth view
-            // buildImage(pngsList, 5, 3, option);
-            // // fifth view
-            // buildImage(pngsList, 6, 4, option);
-            // // sixth view
-            // buildImage(pngsList, 7, 5, option);
             
             // finding the smallest number of frames to fix all the frames together
             for (int i = 0; i < imageTexturesList.Count; i++)
@@ -114,9 +98,10 @@ public class ImageAnimation : MonoBehaviour
                 }
             }
             Debug.Log("Min count: " + count);
-            scanParent.GetComponent<PNGScans>().buildImage();
+            scanParent.GetComponent<PNGScans>().BuildImage();
         }
         
+        // predictions
         else if (option == 2)
         {
             // add lists to list of lists predictionTextures
@@ -128,22 +113,9 @@ public class ImageAnimation : MonoBehaviour
             for (int i = 0; i < indexes.Count ; i++)
             {
                 // build the image lists for each of the different views
-                buildImage(pngsList, indexes[i], i, option);
+                BuildImage(pngsList, indexes[i], i, option);
             }
 
-            // // first view
-            // buildImage(pngsList, 1, 0, option);
-            // // second view
-            // buildImage(pngsList, 2, 1, option);
-            // // third view
-            // buildImage(pngsList, 3, 2, option);
-            // // fourth view
-            // buildImage(pngsList, 5, 3, option);
-            // // fifth view
-            // buildImage(pngsList, 6, 4, option);
-            // // sixth view
-            // buildImage(pngsList, 7, 5, option);
-            
             // finding the smallest number of frames to fix all the frames together
             for (int i = 0; i < predictionTexturesList.Count; i++)
             {
@@ -154,46 +126,44 @@ public class ImageAnimation : MonoBehaviour
                 }
             }
             Debug.Log("Min count: " + count);
-            scanParent2.GetComponent<PredictionScans>().buildImage();
+            scanParent2.GetComponent<PredictionScans>().BuildImage();
         }
 
         
     }
 
-    public void buildImage(string[] pngsList, string pngIndex, int index, int option)
+    public void BuildImage(string[] pngsList, string pngIndex, int index, int option)
     {
+        // Reference - https://learn.microsoft.com/en-us/dotnet/api/system.io.directory?view=net-9.0
+        // string[] pngPaths = Directory.GetFiles(pathExtract, "*.png");
+        List<string> pngPathList = new List<string>();
         
+        // Reference - https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-10.0
+        // adding the images of the current view
+        foreach (string png in pngsList)
+        {
+            if (png.Contains("--" + pngIndex + "-"))
+            {
+                pngPathList.Add(png);
+            }
+        }        
         if (option == 1)
         {
-            // Reference - https://learn.microsoft.com/en-us/dotnet/api/system.io.directory?view=net-9.0
-            // string[] pngPaths = Directory.GetFiles(pathExtract, "*.png");
-            List<string> pngPathList = new List<string>();
-            
-            // Reference - https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-10.0
-            foreach (string png in pngsList)
+            for (int i = 0; i < pngPathList.Count; i++)
             {
-                if (png.Contains("--" + pngIndex + "-"))
-                {
-                    pngPathList.Add(png);
-                }
-            }
-            
-            for (int i = 0; i < pngPathList.Count; i++) // temporarily using third.count
-            {
-                // Reference - https://docs.unity3d.com/6000.2/Documentation/ScriptReference/Windows.File.ReadAllBytes.html
+                // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Windows.File.ReadAllBytes.html
                 byte[] byteImage1 = File.ReadAllBytes(pngPathList[i]);
-                // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/ImageConversion.LoadImage.html
+                // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/ImageConversion.LoadImage.html
                 // the textures will get overwritten, so creating an arbitrary file for now
-                // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Texture2D-ctor.html
+                // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Texture2D-ctor.html
                 // using Alpha8 
                 Texture2D texImage1 = new Texture2D(2, 2, TextureFormat.Alpha8, false);
                 ImageConversion.LoadImage(texImage1, byteImage1);
                 imageTexturesList[index].Add(texImage1);
             }
-            
             Debug.Log("Length of current imageTextures  + " + index +  "List = " + imageTexturesList[index].Count);
-            
-            // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Transform.GetChild.html
+            // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Transform.GetChild.html
+            // getting the current image panel to overlay the image onto
             GameObject child = transform.GetChild(index).gameObject;
             // Reference - https://docs.unity3d.com/Packages/com.unity.ugui@2.0/manual/script-RawImage.html
             RawImage raw = child.GetComponent<RawImage>();
@@ -202,64 +172,37 @@ public class ImageAnimation : MonoBehaviour
 
         else if (option == 2)
         {
-            // Reference - https://learn.microsoft.com/en-us/dotnet/api/system.io.directory?view=net-9.0
-            // string[] pngPaths = Directory.GetFiles(pathExtract, "*.png");
-            List<string> pngPathList = new List<string>();
-            
-            // Reference - https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-10.0
-            foreach (string png in pngsList)
-            {
-                if (png.Contains("--" + pngIndex + "-"))
-                {
-                    pngPathList.Add(png);
-                }
-            }
-            
             for (int i = 0; i < pngPathList.Count; i++) // temporarily using third.count
             {
-                // Reference - https://docs.unity3d.com/6000.2/Documentation/ScriptReference/Windows.File.ReadAllBytes.html
+                // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Windows.File.ReadAllBytes.html
                 byte[] byteImage1 = File.ReadAllBytes(pngPathList[i]);
-                // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/ImageConversion.LoadImage.html
+                // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/ImageConversion.LoadImage.html
                 // the textures will get overwritten, so creating an arbitrary file for now
-                // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Texture2D-ctor.html
+                // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Texture2D-ctor.html
                 // using Alpha8 
                 Texture2D texImage1 = new Texture2D(2, 2, TextureFormat.Alpha8, false);
                 ImageConversion.LoadImage(texImage1, byteImage1);
                 predictionTexturesList[index].Add(texImage1);
             }
-            
             Debug.Log("Length of current predictionTextures  + " + index +  "List = " + predictionTexturesList[index].Count);
-            
-            // Reference - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Transform.GetChild.html
-            GameObject child = transform.GetChild(index).gameObject;
-            // // Reference - https://docs.unity3d.com/Packages/com.unity.ugui@2.0/manual/script-RawImage.html
-            // RawImage raw = child.GetComponent<RawImage>();
-            // raw.texture = predictionTexturesList[index][0];  
         }
-        
-
     }
 
-    
-    
-    
-    
-    
-    
-    public void changePlay()
+    public void ChangePlay()
     {
         play = true;
         Debug.Log("Changed to " + play);
     }
 
-        public void changePause()
+        public void ChangePause()
     {
         play = false;
         Debug.Log("Changed to " + play);
     }
 
-    public void incrementer()
+    public void Incrementer()
     {
+        // updates all the image scan views on the panel
         for (int i = 0; i < imageTexturesList.Count ; i++)
         {
             GameObject child = transform.GetChild(i).gameObject;
@@ -267,10 +210,12 @@ public class ImageAnimation : MonoBehaviour
             raws.texture = imageTexturesList[i][playCounter];
         }
         
-        scanParent.GetComponent<PNGScans>().incrementer(playCounter, imageTexturesList.Count);
-        scanParent2.GetComponent<PredictionScans>().incrementer(playCounter, imageTexturesList.Count);
-        ventricle.GetComponent<VentricleAnimation>().incrementer(playCounter);
+        // calls the other Incrementer() methods
+        scanParent.GetComponent<PNGScans>().Incrementer(playCounter, imageTexturesList.Count);
+        scanParent2.GetComponent<PredictionScans>().Incrementer(playCounter, imageTexturesList.Count);
+        ventricle.GetComponent<VentricleAnimation>().Incrementer(playCounter);
 
+        // move to next frame with check to see if loop back to start of lists
         playCounter++;
         timer = 0.0f;
         if (playCounter >= count) 
