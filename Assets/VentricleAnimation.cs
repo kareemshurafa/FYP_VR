@@ -9,6 +9,7 @@ using System.Threading;
 using Dummiesman;
 using TMPro;
 using UnityEditor;
+using System;
 
 public class VentricleAnimation : MonoBehaviour
 {
@@ -35,6 +36,8 @@ public class VentricleAnimation : MonoBehaviour
     [SerializeField] public TMP_InputField nameText;
 
     public static string[] affinesList;
+
+    string[] predictionsList;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -106,10 +109,26 @@ public class VentricleAnimation : MonoBehaviour
         // Reference - https://learn.microsoft.com/en-us/dotnet/api/system.io.directory?view=net-9.0
         // finding all files in each folder
         // affinesList is public and static for later methods to check if affines are provided or not
-        affinesList = Directory.GetFiles(affinesPath, "*.txt");
+        try
+        {
+            affinesList = Directory.GetFiles(affinesPath, "*.txt");
+        }
+        catch (Exception e)
+        {
+            affinesList = Array.Empty<string>();
+        }
+        // affinesList = Directory.GetFiles(affinesPath, "*.txt");
         string[] objsList = Directory.GetFiles(objsPath, "*.obj");
         string[] pngsList = Directory.GetFiles(pngsPath, "*.png");
-        string[] predictionsList = Directory.GetFiles(predictionsPath, "*.png");
+        // string[] predictionsList = Directory.GetFiles(predictionsPath, "*.png");
+        try
+        {
+            predictionsList = Directory.GetFiles(predictionsPath, "*.png");
+        }
+        catch (Exception e)
+        {
+            predictionsList = Array.Empty<string>();
+        }
         Debug.Log("Number of affines: " + affinesList.Length);
         Debug.Log("Number of objs: " + objsList.Length);
         Debug.Log("Number of pngs: " + pngsList.Length);
