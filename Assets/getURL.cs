@@ -13,8 +13,11 @@ public class getURL : MonoBehaviour
     [SerializeField] string appURL;
 
     // Reference - adapted from ChatGPT 5.0
+    // Reference - https://docs.unity3d.com/Packages/com.unity.textmeshpro@1.3/api/TMPro.TMP_InputField.html
     [SerializeField] public TMP_InputField nameText;
     [SerializeField] public TMP_InputField passwordText;
+
+    [SerializeField] public TMP_Text loadingText;
 
     public GameObject ventricle;
 
@@ -46,12 +49,14 @@ public class getURL : MonoBehaviour
                 Debug.Log("Failed to get URL with error: " + request.downloadHandler.text);
                 // sets button red to tell user of failure
                 GetComponent<Image>().color = Color.red;
+                loadingText.text = "Error";
             }
             else
             {
                 Debug.Log("Obtained pre-signed URL successfuly");
                 // sets button green to tell user of success
                 GetComponent<Image>().color = Color.green;
+                loadingText.text = "Loading...";
                 Debug.Log(request.downloadHandler.text);
                 // calling the VentricleAnimation.cs script and passing URL
                 StartCoroutine(ventricle.GetComponent<VentricleAnimation>().DownloadAndExtractFiles(request.downloadHandler.text));

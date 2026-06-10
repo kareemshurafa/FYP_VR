@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
@@ -32,8 +33,20 @@ public class PNGScans : MonoBehaviour
             RawImage raws = child.GetComponent<RawImage>();
             raws.texture = imageTexturesList[i][0];
         }
+
+        int affineViews = VentricleAnimation.affinesList.Length;
+        // currently takes up to 6 different scan views
+        int unusedViews = 6 - affineViews;
+        if (unusedViews > 0)
+        {
+            for (int i = 0 ; i < unusedViews ; i++)
+            {
+            GameObject child = transform.GetChild(5 - i).gameObject;
+            Destroy(child);
+            }
+        }
         // calling the vector calculator script for affines
-        affineParent.GetComponent<VectorCalculator>().Build();
+        affineParent.GetComponent<VectorCalculator>().Build();            
     }
 
     public void Incrementer(int playCounter, int count)

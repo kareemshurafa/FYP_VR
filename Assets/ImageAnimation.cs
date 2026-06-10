@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class ImageAnimation : MonoBehaviour
 {
@@ -21,6 +22,12 @@ public class ImageAnimation : MonoBehaviour
     [SerializeField] public GameObject ventricle;
     [SerializeField] public Slider speedSlider;
     [SerializeField] public TMP_Text speedText;
+
+    bool modelVisible = true;
+
+    bool scansVisible = true;
+    
+    bool predictionsVisible = true;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -97,6 +104,17 @@ public class ImageAnimation : MonoBehaviour
                     count = imageTexturesList[i].Count;
                 }
             }
+            int viewNumbers = imageTexturesList.Count;
+            int unusedViews = 6 - viewNumbers;
+            if (unusedViews > 0)
+            {
+                for (int i = 0 ; i < unusedViews ; i++)
+                {
+                GameObject child = transform.GetChild(5 - i).gameObject;
+                Destroy(child);
+                }
+            }
+
             Debug.Log("Min count: " + count);
             scanParent.GetComponent<PNGScans>().BuildImage();
         }
@@ -200,6 +218,99 @@ public class ImageAnimation : MonoBehaviour
         Debug.Log("Changed to " + play);
     }
 
+    public void ResetScene()
+    {
+        // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/SceneManagement.SceneManager.LoadScene.html
+        SceneManager.LoadScene("FYPScene");
+    }
+
+    public void ToggleModelVisibility(GameObject gameobject)
+    {
+        MeshRenderer meshRenderer = gameobject.GetComponent<MeshRenderer>();
+        modelVisible = !modelVisible;
+        
+        if (modelVisible)
+        {
+            // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Color.html
+            meshRenderer.material.color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
+        }
+        else
+        {
+            meshRenderer.material.color = new Color(1.0f, 0.0f, 0.0f, 0.0f);
+        }
+
+    }
+
+    public void ToggleScansVisibility(GameObject gameobject)
+    {
+        scansVisible = !scansVisible;
+        if (scansVisible)
+        {
+            for (int i = 0; i < imageTexturesList.Count; i++)
+            {
+                Debug.Log("performing child get ");
+                GameObject child = gameobject.transform.GetChild(i).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+                Debug.Log("performed child get ");
+                // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/CanvasGroup.html
+                CanvasGroup cg = child.GetComponent<CanvasGroup>();
+                cg.alpha = 0.25f;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < imageTexturesList.Count; i++)
+            {
+                Debug.Log("performing child get ");
+                GameObject child = gameobject.transform.GetChild(i).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+                Debug.Log("performed child get ");
+                // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/CanvasGroup.html
+                CanvasGroup cg = child.GetComponent<CanvasGroup>();
+                cg.alpha = 0.0f;
+            }    
+        }
+    }
+
+    public void TogglePredicitonsVisibility(GameObject gameobject)
+    {
+        predictionsVisible = !predictionsVisible;
+        if (predictionsVisible)
+        {
+            for (int i = 0; i < predictionTexturesList.Count; i++)
+            {
+                Debug.Log("performing child get ");
+                GameObject child = gameobject.transform.GetChild(i).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+                Debug.Log("performed child get ");
+                // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/CanvasGroup.html
+                CanvasGroup cg = child.GetComponent<CanvasGroup>();
+                cg.alpha = 0.25f;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < predictionTexturesList.Count; i++)
+            {
+                Debug.Log("performing child get ");
+                GameObject child = gameobject.transform.GetChild(i).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+                Debug.Log("performed child get ");
+                // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/CanvasGroup.html
+                CanvasGroup cg = child.GetComponent<CanvasGroup>();
+                cg.alpha = 0.0f;
+            }    
+        }
+    }
+
+    public void SizeUp(GameObject gameobject)
+    {
+        gameobject.transform.localScale = gameobject.transform.localScale * 1.1f;
+    }
+
+    public void SizeDown(GameObject gameobject)
+    {
+        gameobject.transform.localScale = gameobject.transform.localScale * 0.9f;
+    }
+
+
+
     public void Incrementer()
     {
         // updates all the image scan views on the panel
@@ -211,10 +322,12 @@ public class ImageAnimation : MonoBehaviour
         }
         
         // calls the other Incrementer() methods
-        scanParent.GetComponent<PNGScans>().Incrementer(playCounter, imageTexturesList.Count);
-        scanParent2.GetComponent<PredictionScans>().Incrementer(playCounter, imageTexturesList.Count);
         ventricle.GetComponent<VentricleAnimation>().Incrementer(playCounter);
-
+        if (VentricleAnimation.affinesList.Length > 0)
+        {
+            scanParent.GetComponent<PNGScans>().Incrementer(playCounter, imageTexturesList.Count);
+            scanParent2.GetComponent<PredictionScans>().Incrementer(playCounter, predictionTexturesList.Count);    
+        }
         // move to next frame with check to see if loop back to start of lists
         playCounter++;
         timer = 0.0f;

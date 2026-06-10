@@ -8,7 +8,7 @@ public class PredictionScans : MonoBehaviour
     
     public GameObject affineParent;
 
-    public bool exists = false;
+    bool exists = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,6 +34,18 @@ public class PredictionScans : MonoBehaviour
             GameObject child = transform.GetChild(i).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
             RawImage raws = child.GetComponent<RawImage>();
             raws.texture = predictionTexturesList[i][0];
+        }
+    
+        int affineViews = VentricleAnimation.affinesList.Length;
+        // currently takes up to 6 different scan views
+        int unusedViews = 6 - affineViews;
+        if (unusedViews > 0)
+        {
+            for (int i = 0 ; i < unusedViews ; i++)
+            {
+            GameObject child = transform.GetChild(5 - i).gameObject;
+            Destroy(child);
+            }
         }
         // calling the vector calculator script for affines
         affineParent.GetComponent<VectorCalculatorMasks>().Build();

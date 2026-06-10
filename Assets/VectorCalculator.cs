@@ -13,6 +13,8 @@ public class VectorCalculator : MonoBehaviour
     public static float timer = 0.0f;
 
     public static string[] affinesList;
+
+    [SerializeField] public GameObject loginPanel;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -111,15 +113,22 @@ public class VectorCalculator : MonoBehaviour
                 Quaternion rotation = matrix.rotation;
                 
                 GameObject empty = transform.GetChild(i).gameObject;
-                GameObject quad = transform.GetChild(i).GetChild(0).gameObject;
                 
                 // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Transform-localPosition.html
                 empty.transform.rotation = rotation;
                 empty.transform.localPosition = imagePosition;
 
+                
+                GameObject child = transform.GetChild(i).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+                // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/CanvasGroup.html
+                CanvasGroup cg = child.GetComponent<CanvasGroup>();
+                cg.alpha = 0.25f;
+                
                 Debug.Log("finished for image!" + i);
             }
         }
+
+        Destroy(loginPanel);
     }
 
 }

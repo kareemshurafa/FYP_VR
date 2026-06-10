@@ -97,14 +97,22 @@ public class VentricleAnimation : MonoBehaviour
 
         // Reference - https://learn.microsoft.com/en-us/dotnet/api/system.io.path.combine?view=net-10.0
         // different path convention based on if on Windows or a different operating system
-        string affinesPath = Path.Combine(pathExtract, name);
-        affinesPath = Path.Combine(affinesPath, "affines");
-        string objsPath = Path.Combine(pathExtract, name);
-        objsPath = Path.Combine(objsPath, "objs");
-        string pngsPath = Path.Combine(pathExtract, name);
-        pngsPath = Path.Combine(pngsPath, "pngs");
-        string predictionsPath = Path.Combine(pathExtract, name);
-        predictionsPath = Path.Combine(predictionsPath, "predictions");
+        // want to dynamically open folder regardless of name - under currentDirectory[0]
+        string[] directoryList = Directory.GetDirectories(pathExtract);
+        string currentDirectory = directoryList[0];
+        Debug.Log("Finding directories: " + directoryList.Length + " with name " + currentDirectory);
+        // string affinesPath = Path.Combine(pathExtract, name);
+        string affinesPath = Path.Combine(currentDirectory, "affines");
+        // string objsPath = Path.Combine(pathExtract, name);
+        string objsPath = Path.Combine(currentDirectory, "objs");
+        // string pngsPath = Path.Combine(pathExtract, name);
+        string pngsPath = Path.Combine(currentDirectory, "pngs");
+        // string predictionsPath = Path.Combine(pathExtract, name);
+        string predictionsPath = Path.Combine(currentDirectory, "predictions");
+        Debug.Log(affinesPath);
+        Debug.Log(predictionsPath);
+        Debug.Log(pngsPath);
+        Debug.Log(predictionsPath);
 
         // Reference - https://learn.microsoft.com/en-us/dotnet/api/system.io.directory?view=net-9.0
         // finding all files in each folder
