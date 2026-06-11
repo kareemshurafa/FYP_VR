@@ -24,11 +24,6 @@ public class VentricleAnimation : MonoBehaviour
 
     public GameObject panel;
 
-    // counter for mesh loop
-    int counter;
-
-    bool exist = false;
-
     [SerializeField] public Slider opacitySlider;
 
     [SerializeField] public TMP_Text opacityText;
@@ -101,13 +96,9 @@ public class VentricleAnimation : MonoBehaviour
         string[] directoryList = Directory.GetDirectories(pathExtract);
         string currentDirectory = directoryList[0];
         Debug.Log("Finding directories: " + directoryList.Length + " with name " + currentDirectory);
-        // string affinesPath = Path.Combine(pathExtract, name);
         string affinesPath = Path.Combine(currentDirectory, "affines");
-        // string objsPath = Path.Combine(pathExtract, name);
         string objsPath = Path.Combine(currentDirectory, "objs");
-        // string pngsPath = Path.Combine(pathExtract, name);
         string pngsPath = Path.Combine(currentDirectory, "pngs");
-        // string predictionsPath = Path.Combine(pathExtract, name);
         string predictionsPath = Path.Combine(currentDirectory, "predictions");
         Debug.Log(affinesPath);
         Debug.Log(predictionsPath);
@@ -153,6 +144,7 @@ public class VentricleAnimation : MonoBehaviour
             // extracting the mesh from the .obj
             Mesh mesh1 = gameobj.GetComponentInChildren<MeshFilter>().mesh;
             // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Mesh.html
+            // Reference - ChatGPT-5 (OpenAI)
             // performing recalculations to ensure no issues from loading
             mesh1.RecalculateNormals();
             mesh1.RecalculateBounds();
@@ -175,7 +167,7 @@ public class VentricleAnimation : MonoBehaviour
         Material mat = GetComponent<Renderer>().material;
         Debug.Log("Finding material: " + mat.name + " and shader: " + mat.shader);
         // the material used is a child variant of the parent Lit from Universal Render Pipeline (built-in with Unity)
-        // the main difference is the Surface Type is set to Transparent with a Blending Mode of Alpha
+        // the main difference is the Surface Type is set to Transparent with a Blending Mode of Alpha in the editor
         // this allows for the ability to change the opacity of the model
         meshRenderer.material.color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
 

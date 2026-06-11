@@ -39,6 +39,7 @@ public class getURL : MonoBehaviour
         Debug.Log("Name: " + name + "Pass: " + pass);
         
         // creating the POST request object - appURL contains the website URL
+        // Reference - ChatGPT-5 (OpenAI)
         using (UnityWebRequest request = UnityWebRequest.Post(appURL, "{ \"objectName\": \"" + name + "\", \"password\": \"" + pass + "\" }", "application/json"))
         {
            // sending POST request

@@ -6,11 +6,6 @@ using System;
 
 public class VectorCalculatorMasks : MonoBehaviour
 {
-    public static int playCounter = 0;
-
-    public static int count = 93;
-
-    public static float timer = 0.0f;
 
     public static string[] affinesList;
     
@@ -28,9 +23,11 @@ public class VectorCalculatorMasks : MonoBehaviour
 
     public void Build()
     {
+        // get affines list
         affinesList = VentricleAnimation.affinesList;
         List<string> lines = new List<string>();
         
+        // read all the affines in the list
         foreach (string affine in affinesList)
         {
             Debug.Log("affine here " + affine);
@@ -49,6 +46,7 @@ public class VectorCalculatorMasks : MonoBehaviour
             }
         }
         
+        // extracting each value of the matrix
         List<List<string[]>> comboLines = new List<List<string[]>>();
         foreach (string affine in affinesList)
         {
@@ -65,6 +63,7 @@ public class VectorCalculatorMasks : MonoBehaviour
         
         List<Vector4> vectors = new List<Vector4>();
         
+        // assigning the values of the affines to a list of floats
         for (int counter = 0; counter < comboLines.Count ; counter++)
         {
             for (int i = 0; i < 4; i++)
@@ -90,6 +89,8 @@ public class VectorCalculatorMasks : MonoBehaviour
         // Reference - https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Matrix4x4.html
         // first 3 columns are x, y, z axes, and last column contains position information
 
+        
+        // assigning the values of the floats to the 4x4 matrices
         List<Matrix4x4> matrixList = new List<Matrix4x4> ();
         int index = 0;
         for (int i = 0 ; i < comboLines.Count ; i++)
